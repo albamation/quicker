@@ -15,23 +15,26 @@ def main():
     screen = pygame.display.set_mode(size)
 
     # play game
-    play(screen)
+    play(screen, size)
 
     # exit system
     sys.exit()
 
-def play(screen):
+def play(screen, size):
 
     # define game variables
     orb_pos = (100, 200)
-    orb_rad = 10
+    orb_rad = 50
     orb_mass = 1
     orb_vel_x = 0 #initial x velocity
     orb_vel_y = 0 #initial y velocity
     cursor_mass = 5000
     gravity_constant = 1
     friction_constant = 0.005
-    time_constant = 1 #this accounts for the amount of time between updates (equivalent to fps value)
+    time_constant = 1 #this accounts for the amount of time between frames (equivalent to fps value)
+
+    # define rectangular boundary for orb
+    screen_boundary = pygame.Rect((0, 0), size)
 
     # game loop
     while True:
@@ -46,6 +49,12 @@ def play(screen):
 
         # get mouse postition
         mouse_pos = pygame.mouse.get_pos()
+
+        # check if orb hits boundary, redirects it elastically if it does
+        if screen_boundary.collidepoint(orb_pos[0],0)==0:
+            orb_vel_x = -orb_vel_x
+        if screen_boundary.collidepoint(0,orb_pos[1])==0:    
+            orb_vel_y = -orb_vel_y
 
         # calculate distance between cursor and orb
         separation_dist_x = mouse_pos[0]-orb_pos[0]
@@ -74,6 +83,8 @@ def play(screen):
 
         # update orb position
         orb_pos = (int(orb_pos[0] + orb_vel_x/time_constant), int(orb_pos[1] + orb_vel_y/time_constant))
+
+
 
         # draw target orb
         pygame.draw.circle(screen, WHITE, orb_pos, orb_rad, 0)
