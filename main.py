@@ -4,6 +4,7 @@ import math
 # define game colours
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+RED = (255, 0, 0)
 
 def main():
 
@@ -24,7 +25,7 @@ def play(screen, size):
 
     # define game variables
     orb_pos = (100, 200)
-    orb_rad = 50
+    orb_rad = 20
     orb_mass = 1
     orb_vel_x = 0 #initial x velocity
     orb_vel_y = 0 #initial y velocity
@@ -32,6 +33,9 @@ def play(screen, size):
     gravity_constant = 1
     friction_constant = 0.005
     time_constant = 1 #this accounts for the amount of time between frames (equivalent to fps value)
+    obstacle_rad = 50
+    obstacle_pos = (size[0] + obstacle_rad, 200)
+    obstacle_vel = 1
 
     # define rectangular boundary for orb
     screen_boundary = pygame.Rect((0, 0), size)
@@ -53,7 +57,7 @@ def play(screen, size):
         # check if orb hits boundary, redirects it elastically if it does
         if screen_boundary.collidepoint(orb_pos[0],0)==0:
             orb_vel_x = -orb_vel_x
-        if screen_boundary.collidepoint(0,orb_pos[1])==0:    
+        if screen_boundary.collidepoint(0,orb_pos[1])==0:
             orb_vel_y = -orb_vel_y
 
         # calculate distance between cursor and orb
@@ -84,10 +88,17 @@ def play(screen, size):
         # update orb position
         orb_pos = (int(orb_pos[0] + orb_vel_x/time_constant), int(orb_pos[1] + orb_vel_y/time_constant))
 
-
-
         # draw target orb
         pygame.draw.circle(screen, WHITE, orb_pos, orb_rad, 0)
+
+        # update obstacle position
+        if obstacle_pos[0] < -obstacle_rad:
+            obstacle_pos = (size[0] + obstacle_rad, 200)
+
+        obstacle_pos = (obstacle_pos[0]- obstacle_vel, obstacle_pos[1])
+
+        # draw obstacle
+        pygame.draw.circle(screen, RED, obstacle_pos, obstacle_rad, 0)
 
         # update display
         pygame.display.update();
