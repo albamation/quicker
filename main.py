@@ -5,6 +5,7 @@ import math
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+BOOST_BLUE = (0, 0, 55)
 
 def main():
 
@@ -31,6 +32,7 @@ def play(screen, size):
     orb_vel_y = 0 #initial y velocity
     initial_cursor_mass = 5000
     cursor_mass = initial_cursor_mass
+    cursor_rad = 50
     gravity_constant = 1
     friction_constant = 0.005
     time_constant = 1 #this accounts for the amount of time between frames (equivalent to fps value)
@@ -38,6 +40,7 @@ def play(screen, size):
     obstacle_pos = (size[0] + obstacle_rad, 200)
     obstacle_vel = 1
     mass_boost = 50000
+    screen_color = BLACK
 
     # define rectangular boundary for orb
     screen_boundary = pygame.Rect((0, 0), size)
@@ -51,23 +54,35 @@ def play(screen, size):
                 return
 
         # render black background
-        screen.fill(BLACK)
+        screen.fill(screen_color)
 
         # get mouse postition
         mouse_pos = pygame.mouse.get_pos()
 
-        # Check if cursor is down for boost
+        # check if cursor is down for boost
         if (event.type == pygame.MOUSEBUTTONDOWN) & (cursor_mass == initial_cursor_mass):
             cursor_mass = initial_cursor_mass + mass_boost
+            screen_color = BOOST_BLUE
         if (event.type == pygame.MOUSEBUTTONUP) & (cursor_mass == initial_cursor_mass + mass_boost):
             cursor_mass = initial_cursor_mass
+            screen_color = BLACK
 
-
-        # check if orb hits boundary, redirects it elastically if it does
+        # check if orb hits screen boundary, redirects it elastically if it does
         if screen_boundary.collidepoint(orb_pos[0],0)==0:
             orb_vel_x = -orb_vel_x
         if screen_boundary.collidepoint(0,orb_pos[1])==0:
             orb_vel_y = -orb_vel_y
+
+        # check if orb is within cursor radius; if so, return it to original position
+        cursor_pos_x_plus = mouse_pos[0] + cursor_rad
+        cursor_pos_x_minus = mouse_pos[0] - cursor_rad
+        cursor_pos_y_plus = mouse_pos[1] + cursor_rad
+        cursor_pos_y_minus = mouse_pos[1] - cursor_rad
+        if (orb_pos[0] <= cursor_pos_x_plus) & (orb_pos[0] >= cursor_pos_x_minus):
+            if (orb_pos[1] <= cursor_pos_y_plus) & (orb_pos[1] >= cursor_pos_y_minus):
+                # orb is within cursor boundary
+                orb_pos = (100, 200)
+
 
         # calculate distance between cursor and orb
         separation_dist_x = mouse_pos[0]-orb_pos[0]
