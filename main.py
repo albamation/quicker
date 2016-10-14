@@ -5,8 +5,10 @@ import math
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+GREEN = (0, 255, 0)
 BOOST_BLUE = (0, 0, 55)
 DEAD_GRAY = (50, 50, 50)
+WIN_YELLOW = (255, 255, 0)
 
 def main():
 
@@ -25,7 +27,8 @@ def main():
 
 def play(screen, size):
 
-    # define game variables
+    #### define game variables ###############################################
+    # orb
     orb_pos_initial = (100, 200)
     orb_pos = orb_pos_initial
     orb_rad = 20
@@ -33,17 +36,26 @@ def play(screen, size):
     orb_vel_x = 0 #initial x velocity
     orb_vel_y = 0 #initial y velocity
     orb_color = WHITE
+    # cursor
     cursor_mass_initial = 5000
     cursor_mass = cursor_mass_initial
     cursor_rad = 50
+    # physics constants
     gravity_constant = 1
     friction_constant = 0.005
-    time_constant = 1 #this accounts for the amount of time between frames (equivalent to fps value)
+    time_constant = 1 #this accounts for the amount of time between frames
+    # obstacle
     obstacle_rad = 50
     obstacle_pos = (size[0] + obstacle_rad, 200)
     obstacle_vel = 1
+    # target
+    target_rad = 10
+    target_pos = (1100, size[1] + target_rad)
+    target_vel = 1
+    # misc
     mass_boost = 50000
     screen_color = BLACK
+    #########################################################################
 
     # define rectangular boundary for orb
     screen_boundary = pygame.Rect((0, 0), size)
@@ -92,7 +104,14 @@ def play(screen, size):
         if obstacle_separation_dist_tot <= obstacle_rad + orb_rad:
             orb_color = DEAD_GRAY
 
-        ###########ORB PHYSICS#################################################
+        # check if orb is within target radius; if so, get a point
+        target_separation_dist_x = orb_pos[0]-target_pos[0]
+        target_separation_dist_y = orb_pos[1]-target_pos[1]
+        target_separation_dist_tot = math.sqrt(target_separation_dist_x**2 + target_separation_dist_y**2)
+        if target_separation_dist_tot <= target_rad + orb_rad:
+            orb_color = WIN_YELLOW
+
+        ########### ORB PHYSICS ###############################################
         # calculate gravity force
         force_gravity_x = separation_dist_x*gravity_constant*cursor_mass*orb_mass/(separation_dist_tot**3)
         force_gravity_y = separation_dist_y*gravity_constant*cursor_mass*orb_mass/(separation_dist_tot**3)
@@ -110,19 +129,29 @@ def play(screen, size):
         orb_vel_y = orb_vel_y + acceleration_y/time_constant
         #######################################################################
 
+        #### UPDATE AND DRAW POSITIONS #######################################
+        # orb
         # update orb position
         orb_pos = (int(orb_pos[0] + orb_vel_x/time_constant), int(orb_pos[1] + orb_vel_y/time_constant))
-
-        # draw target orb
+        # draw orb
         pygame.draw.circle(screen, orb_color, orb_pos, orb_rad, 0)
-
+        # obstacle
         # update obstacle position
         if obstacle_pos[0] < -obstacle_rad:
             obstacle_pos = (size[0] + obstacle_rad, 200)
         obstacle_pos = (obstacle_pos[0]- obstacle_vel, obstacle_pos[1])
-
         # draw obstacle
         pygame.draw.circle(screen, RED, obstacle_pos, obstacle_rad, 0)
+        #target
+        # update target position
+        if target_pos[1] < -target_rad:
+            target_pos = (target_pos[0], size[1] + target_rad)
+        if target_pos[0] < -target_rad:
+            target_pos = (size[0] + target_rad, size[1] + target_rad)
+        target_pos = (target_pos[0] - target_vel, target_pos[1] - target_vel)
+        # draw target
+        pygame.draw.circle(screen, GREEN, target_pos, target_rad, 0)
+        #####################################################################
 
         # update display
         pygame.display.update();
