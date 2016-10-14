@@ -29,13 +29,15 @@ def play(screen, size):
     orb_mass = 1
     orb_vel_x = 0 #initial x velocity
     orb_vel_y = 0 #initial y velocity
-    cursor_mass = 5000
+    initial_cursor_mass = 5000
+    cursor_mass = initial_cursor_mass
     gravity_constant = 1
     friction_constant = 0.005
     time_constant = 1 #this accounts for the amount of time between frames (equivalent to fps value)
     obstacle_rad = 50
     obstacle_pos = (size[0] + obstacle_rad, 200)
     obstacle_vel = 1
+    mass_boost = 50000
 
     # define rectangular boundary for orb
     screen_boundary = pygame.Rect((0, 0), size)
@@ -53,6 +55,13 @@ def play(screen, size):
 
         # get mouse postition
         mouse_pos = pygame.mouse.get_pos()
+
+        # Check if cursor is down for boost
+        if (event.type == pygame.MOUSEBUTTONDOWN) & (cursor_mass == initial_cursor_mass):
+            cursor_mass = initial_cursor_mass + mass_boost
+        if (event.type == pygame.MOUSEBUTTONUP) & (cursor_mass == initial_cursor_mass + mass_boost):
+            cursor_mass = initial_cursor_mass
+
 
         # check if orb hits boundary, redirects it elastically if it does
         if screen_boundary.collidepoint(orb_pos[0],0)==0:
