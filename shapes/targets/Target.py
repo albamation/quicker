@@ -1,5 +1,5 @@
 import pygame, math
-import physics
+import colours, physics
 
 # Floating win conditions
 class Target:
@@ -11,7 +11,7 @@ class Target:
 
     rad = 20    # radius of target
 
-    colour = (0, 255, 0) # GREEN
+    colour = colours.GREEN
 
     # on instantiation
     def __init__(self, pos, rad, vel):
@@ -27,7 +27,7 @@ class Target:
         dist_y = orb.pos_y - self.pos_y
         dist_tot = math.sqrt(dist_x ** 2 + dist_y ** 2)
         if dist_tot <= self.rad + orb.rad:
-            orb.colour = (255, 255, 0) # WIN_YELLOW
+            orb.colour = colours.WIN_YELLOW
 
     # update target position
     def update(self, size):

@@ -1,5 +1,5 @@
 import pygame, math
-import physics
+import colours, physics
 
 # The BIG BAD
 class Obstacle:
@@ -11,7 +11,7 @@ class Obstacle:
 
     rad = 20    # radius of obstacle
 
-    colour = (255, 0, 0) # RED
+    colour = colours.RED
 
     # on instantiation
     def __init__(self, pos, rad, vel):
@@ -27,7 +27,7 @@ class Obstacle:
         dist_y = orb.pos_y - self.pos_y
         dist_tot = math.sqrt(dist_x ** 2 + dist_y ** 2)
         if dist_tot <= self.rad + orb.rad:
-            orb.colour = (50, 50, 50) # DEAD_GRAY
+            orb.colour = colours.DEAD_GRAY
 
     # update obstacle position
     def update(self, size):
