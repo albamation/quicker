@@ -75,7 +75,7 @@ def play(screen, level):
         screen.blit(timer , (10, 10))
 
         # update score counter
-        score_counter = game_Font.render("Score: " + str(score), True, colours.WHITE)
+        score_counter = game_Font.render("Score: " + str(level.score), True, colours.WHITE)
         screen.blit(score_counter , (1100, 10))
 
         # draw level

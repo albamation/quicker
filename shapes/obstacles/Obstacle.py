@@ -13,6 +13,8 @@ class Obstacle:
 
     colour = colours.RED
 
+    exists = 1
+
     # on instantiation
     def __init__(self, pos, rad, vel):
         self.pos_x = pos[0]
@@ -23,18 +25,25 @@ class Obstacle:
 
     # check if obstacle is touching orb
     def check(self, orb):
-        dist_x = orb.pos_x - self.pos_x
-        dist_y = orb.pos_y - self.pos_y
-        dist_tot = math.sqrt(dist_x ** 2 + dist_y ** 2)
-        if dist_tot <= self.rad + orb.rad:
-            orb.colour = colours.DEAD_GRAY
+        if self.exists:
+            dist_x = orb.pos_x - self.pos_x
+            dist_y = orb.pos_y - self.pos_y
+            dist_tot = math.sqrt(dist_x ** 2 + dist_y ** 2)
+            if dist_tot <= self.rad + orb.rad:
+                orb.colour = colours.DEAD_GRAY
+                self.exists = 0
+                return 1
+            else:
+                return 0
 
     # update obstacle position
     def update(self, size):
-        if self.pos_x < -self.rad:
-            self.pos_x = size[0] + self.rad
-        self.pos_x = self.pos_x - self.vel_x
+        if self.exists:
+            if self.pos_x < -self.rad:
+                self.pos_x = size[0] + self.rad
+            self.pos_x = self.pos_x - self.vel_x
 
     # draw obstacle to screen
     def draw(self, screen):
-        pygame.draw.circle(screen, self.colour, (self.pos_x, self.pos_y), self.rad, 0)
+        if self.exists:
+            pygame.draw.circle(screen, self.colour, (self.pos_x, self.pos_y), self.rad, 0)

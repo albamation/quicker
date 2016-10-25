@@ -5,6 +5,7 @@ class Level:
     orbs = [];
     targets = [];
     obstacles = [];
+    score = 0;
 
     # load up a specific level
     def __init__(self, level):
@@ -43,9 +44,13 @@ class Level:
     def check(self):
         for orb in self.orbs:
             for target in self.targets:
-                target.check(orb)
+                #target.check(orb)
+                if target.check(orb):
+                    self.score = self.score + 1
             for obstacle in self.obstacles:
-                obstacle.check(orb)
+                #obstacle.check(orb)
+                if obstacle.check(orb):
+                    self.score = self.score - 1
 
     # update shape positions
     def update(self, screen_size):
