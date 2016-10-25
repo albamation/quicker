@@ -50,39 +50,65 @@ def play(screen, level):
         for event in pygame.event.get():
             if event.type == pygame.QUIT: return
 
+        level.level_check()
+
         # check if cursor is down/up for boost
-        screen_colour = colours.BOOST_BLUE if level.check_boost(event.type) else colours.BLACK
+        if level.level_complete == 0:
+            screen_colour = colours.BOOST_BLUE if level.check_boost(event.type) else colours.BLACK
 
         # check if orb hits screen boundary; if so, redirects it elastically
-        level.check_boundary(screen_boundary)
+        if level.level_complete == 0:
+            level.check_boundary(screen_boundary)
 
         # check if orb is within cursor radius; if so, return it to original position
-        level.check_cursor()
+        if level.level_complete == 0:
+            level.check_cursor()
 
         # check if there are any orb interactions
-        level.check()
+        if level.level_complete == 0:
+            level.check()
 
         # update level
-        level.update(settings.screen_size)
+        if level.level_complete == 0:
+            level.update(settings.screen_size)
 
         # draw background
-        screen.fill(screen_colour)
+        if level.level_complete == 0:
+            screen.fill(screen_colour)
 
         # update clock
-        game_time_ms = pygame.time.get_ticks()
-        game_time_s = float(game_time_ms)/1000
-        timer = game_Font.render("Time: " + str(game_time_s), True, colours.WHITE)
-        screen.blit(timer , (10, 10))
+        if level.level_complete == 0:
+            game_time_ms = pygame.time.get_ticks()
+            game_time_s = float(game_time_ms)/1000
+            timer = game_Font.render("Time: " + str(game_time_s), True, colours.WHITE)
+            screen.blit(timer , (10, 10))
 
         # update score counter
-        score_counter = game_Font.render("Score: " + str(level.score), True, colours.WHITE)
-        screen.blit(score_counter , (1100, 10))
+        if level.level_complete == 0:
+            score_counter = game_Font.render("Score: " + str(level.score), True, colours.WHITE)
+            screen.blit(score_counter , (1100, 10))
 
         # draw level
-        level.draw(screen)
+        if level.level_complete == 0:
+            level.draw(screen)
+
+        # Check if level is complete
+        if level.level_complete:
+            level_over_text = game_Font.render("Level Complete!" , True, colours.WHITE)
+            level_points_text = game_Font.render("Points Collected: " + str(level.score) , True, colours.WHITE)
+            game_time_final = game_time_s
+            level_time_text = game_Font.render("Total Time: " + str(game_time_final), True, colours.WHITE)
+            final_score = 100*level.score/game_time_s
+            level_final_score_text = game_Font.render("Final Score: " + str(final_score), True, colours.WHITE)
+            screen.blit(level_over_text , (400, 200))
+            screen.blit(level_points_text , (400, 300))
+            screen.blit(level_time_text , (400, 400))
+            screen.blit(level_final_score_text , (400, 500))
+            pygame.display.update();
 
         # update display
-        pygame.display.update();
+        if level.level_complete == 0:
+            pygame.display.update();
 
 # run main() immediately
 if __name__ == '__main__': main()
