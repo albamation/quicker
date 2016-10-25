@@ -83,10 +83,10 @@ def play(screen, level):
             timer = game_Font.render("Time: " + str(game_time_s), True, colours.WHITE)
             screen.blit(timer , (10, 10))
 
-        # update score counter
+        # update point counter
         if level.level_complete == 0:
-            score_counter = game_Font.render("Score: " + str(level.score), True, colours.WHITE)
-            screen.blit(score_counter , (1100, 10))
+            point_counter = game_Font.render("Points: " + str(level.points), True, colours.WHITE)
+            screen.blit(point_counter , (1100, 10))
 
         # draw level
         if level.level_complete == 0:
@@ -95,10 +95,10 @@ def play(screen, level):
         # Check if level is complete
         if level.level_complete:
             level_over_text = game_Font.render("Level Complete!" , True, colours.WHITE)
-            level_points_text = game_Font.render("Points Collected: " + str(level.score) , True, colours.WHITE)
+            level_points_text = game_Font.render("Points Collected: " + str(level.points) , True, colours.WHITE)
             game_time_final = game_time_s
             level_time_text = game_Font.render("Total Time: " + str(game_time_final), True, colours.WHITE)
-            final_score = 100*level.score/game_time_s
+            final_score = 100*level.points/game_time_s
             level_final_score_text = game_Font.render("Final Score: " + str(final_score), True, colours.WHITE)
             screen.blit(level_over_text , (400, 200))
             screen.blit(level_points_text , (400, 300))

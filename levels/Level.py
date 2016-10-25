@@ -5,7 +5,7 @@ class Level:
     orbs = [];
     targets = [];
     obstacles = [];
-    score = 0;
+    points = 0;
     level_complete = 0;
 
     # load up a specific level
@@ -47,11 +47,11 @@ class Level:
             for target in self.targets:
                 #target.check(orb)
                 if target.check(orb):
-                    self.score = self.score + 1
+                    self.points = self.points + 1
             for obstacle in self.obstacles:
                 #obstacle.check(orb)
                 if obstacle.check(orb):
-                    self.score = self.score - 1
+                    self.points = self.points - 1
 
     # check if all targets have been collected
     def level_check(self):
