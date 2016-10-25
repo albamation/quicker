@@ -18,8 +18,8 @@ class Orb:
 
     cursor = False
     cursor_dist_x = 0
-    cursor_dist_y = 0;
-    cursor_dist_tot = 0;
+    cursor_dist_y = 0
+    cursor_dist_tot = 0
 
     # on instantiation
     def __init__(self, pos, rad, colour, cursor):

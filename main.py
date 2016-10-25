@@ -1,5 +1,6 @@
 import sys, pygame, math
 from constants import settings, colours
+from pygame.locals import *
 
 import levels
 from levels.Level import Level
@@ -33,6 +34,11 @@ def main():
 
 def play(screen, level):
 
+    score = 0
+
+    # font
+    game_Font = pygame.font.SysFont(None, 30)
+
     # misc variables
     screen_colour = settings.screen_colour
     screen_boundary = pygame.Rect((0, 0), settings.screen_size)
@@ -61,6 +67,16 @@ def play(screen, level):
 
         # draw background
         screen.fill(screen_colour)
+
+        # update clock
+        game_time_ms = pygame.time.get_ticks()
+        game_time_s = float(game_time_ms)/1000
+        timer = game_Font.render("Time: " + str(game_time_s), True, colours.WHITE)
+        screen.blit(timer , (10, 10))
+
+        # update score counter
+        score_counter = game_Font.render("Score: " + str(score), True, colours.WHITE)
+        screen.blit(score_counter , (1100, 10))
 
         # draw level
         level.draw(screen)

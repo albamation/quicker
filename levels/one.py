@@ -36,7 +36,8 @@ cursor = Cursor(cursor_rad, cursor_mass_start)
 level = {
     'cursor' : cursor,
     'orbs' : [Orb(orb_pos_start, orb_rad, orb_colour, cursor)],
-    'targets' : [Target(target_pos, target_rad, target_vel)],
+    'targets' : [Target(target_pos, target_rad, target_vel),
+                 Target((800, settings.screen_size[1] + target_rad + 10), target_rad + 10, (2, 3))],
     'obstacles' : [Obstacle(obstacle_pos, obstacle_rad, obstacle_vel),
                    Obstacle((settings.screen_size[0] + obstacle_rad - 500, 400), obstacle_rad, obstacle_vel)]
 }
