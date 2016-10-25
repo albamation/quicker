@@ -1,9 +1,12 @@
 import sys, pygame, math
-from constants import colours
+from constants import settings, colours
 
-sys.path.insert(0, '/shapes/orbs')
-sys.path.insert(0, '/shapes/targets')
-sys.path.insert(0, '/shapes/obstacles')
+import levels
+from levels.Level import Level
+
+sys.path.insert(0, 'shapes/orbs')
+sys.path.insert(0, 'shapes/targets')
+sys.path.insert(0, 'shapes/obstacles')
 
 from Cursor import Cursor
 from Orb import Orb
@@ -16,50 +19,23 @@ def main():
     pygame.init()
 
     # open screen
-    size = width, height = 1200, 800
-    screen = pygame.display.set_mode(size)
+    screen = pygame.display.set_mode(settings.screen_size)
+
+    # load level
+    from levels import one # must come after pygame.init()
+    level = Level(levels.one.level)
 
     # play game
-    play(screen, size)
+    play(screen, level)
 
     # exit system
     sys.exit()
 
-def play(screen, size):
-
-    # cursor initialization variables
-    cursor_mass_start = 5000
-    cursor_rad = 50
-
-    # orb initialization variables
-    orb_pos_start = (100, 200)
-    orb_rad = 20
-    orb_colour = colours.WHITE
-
-    # obstacle initialization variables
-    obstacle_rad = 50
-    obstacle_pos = (size[0] + obstacle_rad, 200)
-    obstacle_vel = (1, 1)
-
-    # target initialization variables
-    target_rad = 10
-    target_pos = (1100, size[1] + target_rad)
-    target_vel = (1, 1)
-
-    # instantiate shapes
-    cursor = Cursor(cursor_rad, cursor_mass_start)
-    orb = Orb(orb_pos_start, orb_rad, orb_colour, cursor)
-    target = Target(target_pos, target_rad, target_vel)
-    obstacle = Obstacle(obstacle_pos, obstacle_rad, obstacle_vel)
-
-    obstacle2 = Obstacle((size[0] + obstacle_rad - 500, 400), obstacle_rad, obstacle_vel)
+def play(screen, level):
 
     # misc variables
-    mass_boost = 50000
-    screen_color = colours.BLACK
-
-    # define rectangular boundary for orb
-    screen_boundary = pygame.Rect((0, 0), size)
+    screen_colour = settings.screen_colour
+    screen_boundary = pygame.Rect((0, 0), settings.screen_size)
 
     # game loop
     while True:
@@ -68,51 +44,26 @@ def play(screen, size):
         for event in pygame.event.get():
             if event.type == pygame.QUIT: return
 
-        # check if cursor is down for boost
-        if (event.type == pygame.MOUSEBUTTONDOWN) & (orb.cursor.mass == cursor_mass_start):
-            orb.cursor.mass = cursor_mass_start + mass_boost
-            screen_color = colours.BOOST_BLUE
-        if (event.type == pygame.MOUSEBUTTONUP) & (orb.cursor.mass == cursor_mass_start + mass_boost):
-            orb.cursor.mass = cursor_mass_start
-            screen_color = colours.BLACK
+        # check if cursor is down/up for boost
+        screen_colour = colours.BOOST_BLUE if level.check_boost(event.type) else colours.BLACK
 
         # check if orb hits screen boundary; if so, redirects it elastically
-        if screen_boundary.collidepoint(orb.pos_x, 0) == 0:
-            orb.vel_x = -orb.vel_x
-        if screen_boundary.collidepoint(0, orb.pos_y) == 0:
-            orb.vel_y = -orb.vel_y
+        level.check_boundary(screen_boundary)
 
         # check if orb is within cursor radius; if so, return it to original position
-        if orb.cursor_dist_tot <= orb.cursor.rad:
-            orb.pos_x = orb_pos_start[0]
-            orb.pos_y = orb_pos_start[1]
+        level.check_cursor()
 
-        # check if orb is within obstacle radius; if so, game over
-        obstacle.check(orb)
-        obstacle2.check(orb)
+        # check if there are any orb interactions
+        level.check()
 
-        # check if orb is within target radius; if so, get a point
-        target.check(orb)
-
-        # update orb (velocity and position)
-        orb.update()
-
-        # update obstacle position
-        obstacle.update(size)
-        obstacle2.update(size)
-
-        # update target position
-        target.update(size)
+        # update level
+        level.update(settings.screen_size)
 
         # draw background
-        screen.fill(screen_color)
+        screen.fill(screen_colour)
 
-        # draw shapes
-        orb.draw(screen)
-        obstacle.draw(screen)
-        target.draw(screen)
-
-        obstacle2.draw(screen)
+        # draw level
+        level.draw(screen)
 
         # update display
         pygame.display.update();

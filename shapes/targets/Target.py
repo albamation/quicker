@@ -1,5 +1,5 @@
 import pygame, math
-import colours, physics
+from constants import colours, physics
 
 # Floating win conditions
 class Target:

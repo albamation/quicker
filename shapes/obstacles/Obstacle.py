@@ -1,5 +1,5 @@
 import pygame, math
-import colours, physics
+from constants import colours, physics
 
 # The BIG BAD
 class Obstacle:

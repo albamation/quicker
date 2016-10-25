@@ -1,8 +1,10 @@
 import pygame, math
-import physics
+from constants import colours, physics
 
 # The player character orb
 class Orb:
+
+    pos_start = (0, 0)
 
     pos_x = 0   # initial x position
     pos_y = 0   # initial y position
@@ -12,7 +14,7 @@ class Orb:
     rad = 20    # radius of orb
     mass = 1    # weight of orb
 
-    colour = (0, 0, 0)
+    colour = colours.WHITE
 
     cursor = False
     cursor_dist_x = 0
@@ -21,6 +23,9 @@ class Orb:
 
     # on instantiation
     def __init__(self, pos, rad, colour, cursor):
+
+        # remember starting positions\
+        self.pos_start = pos
 
         # set variables
         self.pos_x = pos[0]
