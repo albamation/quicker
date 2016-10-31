@@ -40,6 +40,7 @@ class Level:
             if orb.cursor_dist_tot <= orb.cursor.rad:
                 orb.pos_x = orb.pos_start[0]
                 orb.pos_y = orb.pos_start[1]
+                self.points = self.points - 1
 
     # check if targets/obstacles are touching orbs
     def check(self):
