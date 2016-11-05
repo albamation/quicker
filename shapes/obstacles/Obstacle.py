@@ -8,10 +8,10 @@ class Obstacle:
     pos_y = 0   # initial y position
     vel_x = 0   # initial x velocity
     vel_y = 0   # initial y velocity
+    vel_circ = 2*math.pi/60 # initial circular velocity
 
     rad = 20    # radius of obstacle
     orbit_rad = 100 # in case of circular motion
-
     orbit_center = (0 , 0)
     theta = 0
 
@@ -19,24 +19,16 @@ class Obstacle:
 
     exists = 1
 
-    #Define certain trajectories
-    #Legend:
-    # rtl - Linear (right to left)
-    # ltr - Linear (left to right)
-    # cw - Circular (CW)
-    # ccw - Circular (CCW)
-    motion = "rtl"
-
     # on instantiation
-    def __init__(self, pos, rad, vel, motion, orbit_rad):
+    def __init__(self, pos, rad, vel):
         self.pos_x = pos[0]
         self.pos_y = pos[1]
-        self.rad = rad
+        self.rad = rad[0]
         self.vel_x = vel[0]
         self.vel_y = vel[1]
-        self.motion = motion
-        self.orbit_rad = orbit_rad
-        self.orbit_center = (self.pos_x , self.pos_y + self.orbit_rad)
+        self.vel_circ = vel[2]*math.pi/360 # vel[2] refers to number of degrees to rotate per frame update
+        self.orbit_rad = rad[1]
+        self.orbit_center = (pos[0] , pos[1])
 
     # check if obstacle is touching orb
     def check(self, orb):
@@ -54,22 +46,21 @@ class Obstacle:
     # update obstacle position
     def update(self, size):
         if self.exists:
-            if self.motion == "rtl":
-                if self.pos_x < -self.rad:
-                    self.pos_x = size[0] + self.rad
-                self.pos_x = self.pos_x - self.vel_x
-            elif self.motion == "ltr":
-                if self.pos_x > self.rad + size[0]:
-                    self.pos_x = -self.rad
-                self.pos_x = self.pos_x + self.vel_x
-            elif self.motion == "cw":
-                self.theta = self.theta + self.vel_x/(10*6.28)
-                self.pos_x = self.orbit_center[0] + int(self.orbit_rad*math.cos(self.theta))
-                self.pos_y = self.orbit_center[1] + int(self.orbit_rad*math.sin(self.theta))
-            elif self.motion == "ccw":
-                self.theta = self.theta - self.vel_x/(10*6.28)
-                self.pos_x = self.orbit_center[0] + int(self.orbit_rad*math.cos(self.theta))
-                self.pos_y = self.orbit_center[1] + int(self.orbit_rad*math.sin(self.theta))
+            # now shuffle it along
+            self.orbit_center = (self.orbit_center[0] + self.vel_x , self.orbit_center[1] + self.vel_y)
+            # pac man this bitch
+            if self.orbit_center[1] < -self.orbit_rad:
+                self.orbit_center = (self.orbit_center[0] , size[1] + self.orbit_rad)
+            if self.orbit_center[1] > size[1] + self.orbit_rad:
+                self.orbit_center = (self.orbit_center[0] , -self.orbit_rad)
+            if self.orbit_center[0] < -self.orbit_rad:
+                self.orbit_center = (size[0] + self.orbit_rad , self.orbit_center[1])
+            if self.orbit_center[0] > size[0] + self.orbit_rad:
+                self.orbit_center = (-self.orbit_rad , self.orbit_center[1])
+            # now circular motion
+            self.theta = self.theta + self.vel_circ
+            self.pos_x = self.orbit_center[0] + int(self.orbit_rad * math.cos(self.theta))
+            self.pos_y = self.orbit_center[1] + int(self.orbit_rad * math.sin(self.theta))
 
 
     # draw obstacle to screen

@@ -12,8 +12,7 @@ class Target:
 
     rad = 20    # radius of target
     orbit_rad = 0 # in case of circular motion
-    orbit_center = (0 , 0)
-
+    orbit_center = (0, 0)
     theta = 0
 
     colour = colours.GREEN
@@ -21,15 +20,15 @@ class Target:
     exists = 1
 
     # on instantiation
-    def __init__(self, pos, rad, vel, orbit_rad):
+    def __init__(self, pos, rad, vel):
         self.pos_x = pos[0]
         self.pos_y = pos[1]
-        self.rad = rad
+        self.rad = rad[0]
         self.vel_x = vel[0]
         self.vel_y = vel[1]
-        self.vel_circ = vel[2]
-        self.orbit_rad = orbit_rad
-        self.orbit_center = (self.pos_x , self.pos_y + self.orbit_rad)
+        self.vel_circ = vel[2]*math.pi/360 # vel[2] refers to number of degrees to rotate per frame update
+        self.orbit_rad = rad[1]
+        self.orbit_center = (pos[0] , pos[1])
 
     # check if target is touching orb
     def check(self, orb):
@@ -47,24 +46,21 @@ class Target:
     # update target position
     def update(self, size):
         if self.exists:
-            # pac man this bitch
-            if self.pos_y < -self.rad:
-                self.pos_y = size[1] + self.rad
-            if self.pos_y > size[1] + self.rad:
-                self.pos_y = -self.rad
-            if self.pos_x < -self.rad:
-                self.pos_x = size[0] + self.rad
-            if self.pos_x > size[0] + self.rad:
-                self.pos_x = -self.rad
             # now shuffle it along
-            self.pos_x = self.pos_x - self.vel_x
-            self.pos_y = self.pos_y - self.vel_y
-            self.orbit_center = (self.pos_x , self.pos_y)
+            self.orbit_center = (self.orbit_center[0] + self.vel_x , self.orbit_center[1] + self.vel_y)
+            # pac man this bitch
+            if self.orbit_center[1] < -self.orbit_rad:
+                self.orbit_center = (self.orbit_center[0] , size[1] + self.orbit_rad)
+            if self.orbit_center[1] > size[1] + self.orbit_rad:
+                self.orbit_center = (self.orbit_center[0] , -self.orbit_rad)
+            if self.orbit_center[0] < -self.orbit_rad:
+                self.orbit_center = (size[0] + self.orbit_rad , self.orbit_center[1])
+            if self.orbit_center[0] > size[0] + self.orbit_rad:
+                self.orbit_center = (-self.orbit_rad , self.orbit_center[1])
             # now circular motion
-            if self.vel_circ != 0:
-                self.theta = self.theta + self.vel_circ
-                self.pos_x = self.orbit_center[0] + int(self.orbit_rad*math.cos(self.theta))
-                self.pos_y = self.orbit_center[1] + int(self.orbit_rad*math.sin(self.theta))
+            self.theta = self.theta + self.vel_circ
+            self.pos_x = self.orbit_center[0] + int(self.orbit_rad * math.cos(self.theta))
+            self.pos_y = self.orbit_center[1] + int(self.orbit_rad * math.sin(self.theta))
 
     # draw target to screen
     def draw(self, screen):

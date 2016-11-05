@@ -20,14 +20,14 @@ orb_rad = 20
 orb_colour = colours.WHITE
 
 # obstacle initialization variables
-obstacle_rad = 20
+obstacle_rad = (20 , 20)
 obstacle_pos = (500,500)
-obstacle_vel = (1, 1)
+obstacle_vel = (1, 1, 1)
 
 # target initialization variables
-target_rad = 10
-target_pos = (1100, settings.screen_size[1] + target_rad)
-target_vel = (1, 1, 0)
+target_rad = (10 , 100)
+target_pos = (500, 300)
+target_vel = (1, 1, 10)
 
 # instantiate cursor
 cursor = Cursor(cursor_rad, cursor_mass_start)
@@ -36,10 +36,6 @@ cursor = Cursor(cursor_rad, cursor_mass_start)
 level = {
     'cursor' : cursor,
     'orbs' : [Orb(orb_pos_start, orb_rad, orb_colour, cursor)],
-    'targets' : [Target(target_pos, target_rad, target_vel, 0),
-                 Target((0, 0), target_rad, (0, 0, 2*math.pi/120), 20),
-                 Target((700, settings.screen_size[1] + target_rad + 5), target_rad + 10, (1, 4, 0), 0)],
-    'obstacles' : [Obstacle(obstacle_pos, obstacle_rad, obstacle_vel, "ltr", 0),
-                   Obstacle((settings.screen_size[0] + obstacle_rad - 500, 400), obstacle_rad, obstacle_vel, "cw", 50),
-                   Obstacle((500, 500), obstacle_rad, (1,1), "ccw", 200)]
+    'targets' : [Target(target_pos, target_rad, target_vel)],
+    'obstacles' : [Obstacle(obstacle_pos, obstacle_rad, obstacle_vel)]
 }
