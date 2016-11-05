@@ -1,3 +1,5 @@
+# Level 2
+
 import sys, pygame, math
 from constants import settings, colours
 
@@ -20,8 +22,8 @@ orb_rad = 20
 orb_colour = colours.WHITE
 
 # obstacle initialization variables
-obstacle_rad = 20
-obstacle_pos = (500,500)
+obstacle_rad = 50
+obstacle_pos = (settings.screen_size[0] + obstacle_rad, 200)
 obstacle_vel = (1, 1)
 
 # target initialization variables
@@ -39,7 +41,7 @@ level = {
     'targets' : [Target(target_pos, target_rad, target_vel),
                  Target((800, settings.screen_size[1] + target_rad + 10), target_rad + 10, (2, 3)),
                  Target((700, settings.screen_size[1] + target_rad + 5), target_rad + 10, (1, 4))],
-    'obstacles' : [Obstacle(obstacle_pos, obstacle_rad, obstacle_vel, "ltr", 0),
-                   Obstacle((settings.screen_size[0] + obstacle_rad - 500, 400), obstacle_rad, obstacle_vel, "cw", 50),
-                   Obstacle((500, 500), obstacle_rad, (1,1), "ccw", 200)]
+    'obstacles' : [Obstacle(obstacle_pos, obstacle_rad, obstacle_vel),
+                   Obstacle((settings.screen_size[0] + obstacle_rad - 500, 400), obstacle_rad, obstacle_vel),
+                   Obstacle((settings.screen_size[0] + obstacle_rad - 200, 700), obstacle_rad - 15, (5,1))]
 }
