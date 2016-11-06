@@ -81,3 +81,4 @@ class Orb:
     # draw orb to screen
     def draw(self, screen):
         pygame.draw.circle(screen, self.colour, (self.pos_x, self.pos_y), self.rad, 0)
+        pygame.draw.circle(screen, self.colour, (self.pos_start[0], self.pos_start[1]), self.rad, 1)

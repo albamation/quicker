@@ -23,8 +23,8 @@ def main():
     screen = pygame.display.set_mode(settings.screen_size)
 
     # load level
-    from levels import two # must come after pygame.init()
-    level = Level(levels.two.level)
+    from levels import three # must come after pygame.init()
+    level = Level(levels.three.level)
 
     # play game
     play(screen, level)
@@ -86,7 +86,7 @@ def play(screen, level):
         # update point counter
         if level.level_complete == 0:
             point_counter = game_Font.render("Points: " + str(level.points), True, colours.WHITE)
-            screen.blit(point_counter , (1100, 10))
+            screen.blit(point_counter , (10, 30))
 
         # draw level
         if level.level_complete == 0:
@@ -98,12 +98,15 @@ def play(screen, level):
             level_points_text = game_Font.render("Points Collected: " + str(level.points) , True, colours.WHITE)
             game_time_final = game_time_s
             level_time_text = game_Font.render("Total Time: " + str(game_time_final), True, colours.WHITE)
-            final_score = 100*level.points/game_time_s
+            time_bonus = (60 - game_time_s)/5
+            if time_bonus < 0:
+                time_bonus = 0
+            final_score = level.points + time_bonus # this needs tinkering
             level_final_score_text = game_Font.render("Final Score: " + str(final_score), True, colours.WHITE)
-            screen.blit(level_over_text , (400, 200))
-            screen.blit(level_points_text , (400, 300))
-            screen.blit(level_time_text , (400, 400))
-            screen.blit(level_final_score_text , (400, 500))
+            screen.blit(level_over_text , (500, 200))
+            screen.blit(level_points_text , (500, 300))
+            screen.blit(level_time_text , (500, 400))
+            screen.blit(level_final_score_text , (500, 500))
             pygame.display.update();
 
         # update display
