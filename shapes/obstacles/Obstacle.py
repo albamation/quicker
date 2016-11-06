@@ -21,8 +21,9 @@ class Obstacle:
 
     # on instantiation
     def __init__(self, pos, rad, vel):
-        self.pos_x = pos[0]
-        self.pos_y = pos[1]
+        self.theta = -2*math.pi*pos[2]/360
+        self.pos_x = pos[0] + rad[1]*math.cos(self.theta)
+        self.pos_y = pos[1] + rad[1]*math.sin(self.theta)
         self.rad = rad[0]
         self.vel_x = vel[0]
         self.vel_y = vel[1]
