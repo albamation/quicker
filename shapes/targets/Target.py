@@ -1,5 +1,6 @@
-import pygame, math
+import sys,pygame, math
 from constants import colours, physics
+from sounds import sounds
 
 # Floating win conditions
 class Target:
@@ -39,6 +40,7 @@ class Target:
             dist_tot = math.sqrt(dist_x ** 2 + dist_y ** 2)
             if dist_tot <= self.rad + orb.rad:
                 orb.colour = colours.WIN_YELLOW
+                sounds.play_sound('target_sound.wav')
                 self.exists = 0
                 return 1
             else:
