@@ -13,6 +13,7 @@ class Orb:
 
     rad = 20    # radius of orb
     mass = 1    # weight of orb
+    in_play = 0 # start the orb on a click
 
     colour = colours.WHITE
 
@@ -51,32 +52,33 @@ class Orb:
     # update orb position and velocity based on cursor and physics
     def update(self):
 
-        # update cursor position
-        self.get_cursor()
+        if self.in_play == 1:
+            # update cursor position
+            self.get_cursor()
 
-        # calculate gravity force
-        force_gravity_x = self.cursor_dist_x * physics.gravity * self.cursor.mass * self.mass / (self.cursor_dist_tot ** 3)
-        force_gravity_y = self.cursor_dist_y * physics.gravity * self.cursor.mass * self.mass / (self.cursor_dist_tot ** 3)
+            # calculate gravity force
+            force_gravity_x = self.cursor_dist_x * physics.gravity * self.cursor.mass * self.mass / (self.cursor_dist_tot ** 3)
+            force_gravity_y = self.cursor_dist_y * physics.gravity * self.cursor.mass * self.mass / (self.cursor_dist_tot ** 3)
 
-        # calculate friction force
-        force_friction_x = -physics.friction * self.vel_x * abs(self.vel_x)
-        force_friction_y = -physics.friction * self.vel_y * abs(self.vel_y)
+            # calculate friction force
+            force_friction_x = -physics.friction * self.vel_x * abs(self.vel_x)
+            force_friction_y = -physics.friction * self.vel_y * abs(self.vel_y)
 
-        # calculate net force
-        force_net_x = force_gravity_x + force_friction_x
-        force_net_y = force_gravity_y + force_friction_y
+            # calculate net force
+            force_net_x = force_gravity_x + force_friction_x
+            force_net_y = force_gravity_y + force_friction_y
 
-        # calculate acceleration
-        acceleration_x = force_net_x / self.mass
-        acceleration_y = force_net_y / self.mass
+            # calculate acceleration
+            acceleration_x = force_net_x / self.mass
+            acceleration_y = force_net_y / self.mass
 
-        # update velocity
-        self.vel_x = self.vel_x + acceleration_x / physics.time
-        self.vel_y = self.vel_y + acceleration_y / physics.time
+            # update velocity
+            self.vel_x = self.vel_x + acceleration_x / physics.time
+            self.vel_y = self.vel_y + acceleration_y / physics.time
 
-        # update position
-        self.pos_x = int((self.pos_x + self.vel_x) / physics.time)
-        self.pos_y = int((self.pos_y + self.vel_y) / physics.time)
+            # update position
+            self.pos_x = int((self.pos_x + self.vel_x) / physics.time)
+            self.pos_y = int((self.pos_y + self.vel_y) / physics.time)
 
     # draw orb to screen
     def draw(self, screen):

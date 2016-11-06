@@ -43,12 +43,21 @@ def play(screen, level):
     screen_colour = settings.screen_colour
     screen_boundary = pygame.Rect((0, 0), settings.screen_size)
 
+    display_start_text = 1
+    time_delay_offset = 0
+
     # game loop
     while True:
 
         # check for exit code
         for event in pygame.event.get():
             if event.type == pygame.QUIT: return
+            if display_start_text == 1:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    for orb in level.orbs:
+                        orb.in_play = 1
+                        display_start_text = 0
+                        time_delay_offset = pygame.time.get_ticks()
 
         level.level_check()
 
@@ -78,8 +87,10 @@ def play(screen, level):
 
         # update clock
         if level.level_complete == 0:
-            game_time_ms = pygame.time.get_ticks()
+            game_time_ms = pygame.time.get_ticks() - time_delay_offset
             game_time_s = float(game_time_ms)/1000
+            if display_start_text == 1:
+                game_time_s = 0
             timer = game_Font.render("Time: " + str(game_time_s), True, colours.WHITE)
             screen.blit(timer , (10, 10))
 
@@ -111,6 +122,9 @@ def play(screen, level):
 
         # update display
         if level.level_complete == 0:
+            if display_start_text == 1:
+                click_to_start_text = game_Font.render("Click Anywhere To Begin" , True, colours.WHITE)
+                screen.blit(click_to_start_text , (500, 200))
             pygame.display.update();
 
 # run main() immediately
