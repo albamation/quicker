@@ -23,8 +23,8 @@ def main():
     screen = pygame.display.set_mode(settings.screen_size)
 
     # load level
-    from levels import one # must come after pygame.init()
-    level = Level(levels.one.level)
+    from levels import two # must come after pygame.init()
+    level = Level(levels.two.level)
 
     # play game
     play(screen, level)

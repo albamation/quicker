@@ -15,17 +15,17 @@ cursor_mass_start = 5000
 cursor_rad = 50
 
 # orb initialization variables
-orb_pos_start = (100, 200)
+orb_pos_start = (560, 400)
 orb_rad = 20
 orb_colour = colours.WHITE
 
 # obstacle initialization variables
-obstacle_rad = (20 , 20)
-obstacle_pos = (500,500)
-obstacle_vel = (1, 1, 1)
+obstacle_rad = (10 , 200)
+obstacle_pos = (600,400)
+obstacle_vel = (0, 0, 6)
 
 # target initialization variables
-target_rad = (10 , 100)
+target_rad = (10 , 150)
 target_pos = (500, 300)
 target_vel = (1, 1, 10)
 
