@@ -21,12 +21,12 @@ orb_colour = colours.WHITE
 
 # obstacle initialization variables
 obstacle_rad = (10 , 200)
-obstacle_pos = (600,400)
+obstacle_pos = (600, 400, 0)
 obstacle_vel = (0, 0, 6)
 
 # target initialization variables
 target_rad = (10 , 150)
-target_pos = (500, 300)
+target_pos = (500, 300, 0)
 target_vel = (1, 1, 10)
 
 # instantiate cursor
@@ -45,13 +45,13 @@ level = {
                          ),
 
                 Target(
-                        (200,300), # start position (x,y)
+                        (200,300, 0), # start position (x,y)
                         (15,0),    # radius (size, orbit)
                         (-2,3,0)   # velocity (x,y,circular)
                         ),
 
                 Target(
-                        (800,500),  # start position (x,y)
+                        (800,500, 0),  # start position (x,y)
                         (25,50),    # radius (size, orbit)
                         (0,5,10)    # velocity (x,y,circular)
                         ),
@@ -66,7 +66,7 @@ level = {
                         ),
 
                 Obstacle(
-                        (700,500),  # start position (x,y)
+                        (700,500,0),  # start position (x,y)
                         (50,50),    # radius (size, orbit)
                         (-3,5,5)    # velocity (x,y,circular)
                         ),

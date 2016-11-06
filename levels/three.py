@@ -21,12 +21,12 @@ orb_colour = colours.WHITE
 
 # obstacle initialization variables
 obstacle_rad = (10 , 0)
-obstacle_pos = (200,800)
+obstacle_pos = (200,800, 0)
 obstacle_vel = (0, -1, 0)
 
 # target initialization variables
 target_rad = (10 , 30)
-target_pos = (150, 400)
+target_pos = (150, 400, 0)
 target_vel = (0, 0, 3)
 
 # instantiate cursor
@@ -45,19 +45,19 @@ level = {
                          ),
 
                 Target(
-                        (450,400), # start position (x,y)
+                        (450,400, 90), # start position (x,y)
                         target_rad,    # radius (size, orbit)
                         target_vel   # velocity (x,y,circular)
                         ),
 
                 Target(
-                        (750,400), # start position (x,y)
+                        (750,400, 180), # start position (x,y)
                         target_rad,    # radius (size, orbit)
                         target_vel   # velocity (x,y,circular)
                         ),
 
                 Target(
-                        (1050,400), # start position (x,y)
+                        (1050,400, 270), # start position (x,y)
                         target_rad,    # radius (size, orbit)
                         target_vel   # velocity (x,y,circular)
                         ),
@@ -72,31 +72,31 @@ level = {
                         ),
 
                 Obstacle(
-                        (400,0),  # start position (x,y)
+                        (400,0, 0),  # start position (x,y)
                         obstacle_rad,    # radius (size, orbit)
                         (0,1,0)   # velocity (x,y,circular)
                         ),
 
                 Obstacle(
-                        (500,0),  # start position (x,y)
+                        (500,0, 0),  # start position (x,y)
                         obstacle_rad,    # radius (size, orbit)
                         (0,-2,0)   # velocity (x,y,circular)
                         ),
 
                 Obstacle(
-                        (800,0),  # start position (x,y)
+                        (800,0, 0),  # start position (x,y)
                         obstacle_rad,    # radius (size, orbit)
                         (0,3,0)   # velocity (x,y,circular)
                         ),
 
                 Obstacle(
-                        (700,0),  # start position (x,y)
+                        (700,0, 0),  # start position (x,y)
                         obstacle_rad,    # radius (size, orbit)
                         (0,-4,0)   # velocity (x,y,circular)
                         ),
 
                 Obstacle(
-                        (1000,0),  # start position (x,y)
+                        (1000,0, 0),  # start position (x,y)
                         obstacle_rad,    # radius (size, orbit)
                         (0,-5,0)   # velocity (x,y,circular)
                         ),
