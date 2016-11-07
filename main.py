@@ -24,7 +24,7 @@ def main():
 
     # load level
     from levels import one, two, three, four # must come after pygame.init()
-    level = Level(levels.four.level)
+    level = Level(levels.two.level)
 
     # play game
     play(screen, level)

@@ -2,9 +2,9 @@ import pygame
 import os
 
 _sound_library = {}
+pygame.mixer.init()
 
 def play_sound(path):
-  pygame.mixer.init()
   global _sound_library
   sound = _sound_library.get(path)
   if sound == None:

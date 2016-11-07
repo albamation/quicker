@@ -1,3 +1,4 @@
+from sounds import sounds
 # parent level class
 class Level:
 
@@ -41,6 +42,7 @@ class Level:
                 orb.pos_x = orb.pos_start[0]
                 orb.pos_y = orb.pos_start[1]
                 self.points = self.points - 1
+                sounds.play_sound('sounds/cursor_hit_sound.wav')
 
     # check if targets/obstacles are touching orbs
     def check(self):
