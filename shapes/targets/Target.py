@@ -40,7 +40,7 @@ class Target:
             dist_tot = math.sqrt(dist_x ** 2 + dist_y ** 2)
             if dist_tot <= self.rad + orb.rad:
                 orb.colour = colours.WIN_YELLOW
-                #sounds.play_sound('target_sound.wav')
+                sounds.play_sound('target_sound.wav')
                 self.exists = 0
                 return 1
             else:
