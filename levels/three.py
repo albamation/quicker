@@ -9,6 +9,7 @@ from Cursor import Cursor
 from Orb import Orb
 from Target import Target
 from Obstacle import Obstacle
+from Supertarget import Supertarget
 
 # cursor initialization variables
 cursor_mass_start = 5000
@@ -62,6 +63,20 @@ level = {
                         target_vel   # velocity (x,y,circular)
                         ),
 
+                ],
+
+    'supertargets' : [
+                # Supertarget(
+                #         (200,100, 0), # start position (x,y, angle in degrees)
+                #         (10, 0),    # radius (size, orbit)
+                #         (0, 0, 0)   # velocity (x,y,circular)
+                #         ),
+                #
+                # Supertarget(
+                #         (1000,700, 0), # start position (x,y, angle in degrees)
+                #         (10, 0),    # radius (size, orbit)
+                #         (0, 0, 0)   # velocity (x,y,circular)
+                #         ),
                 ],
 
     'obstacles' : [

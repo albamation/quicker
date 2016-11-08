@@ -39,8 +39,8 @@ class Supertarget:
             dist_y = orb.pos_y - self.pos_y
             dist_tot = math.sqrt(dist_x ** 2 + dist_y ** 2)
             if dist_tot <= self.rad + orb.rad:
-                orb.colour = colours.WIN_YELLOW
-                sounds.play_sound('sounds/target_sound.wav')
+                orb.colour = colours.BOOST_BLUE
+                sounds.play_sound('sounds/supertarget_sound.wav')
                 self.exists = 0
                 return 1
             else:
