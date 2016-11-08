@@ -20,22 +20,22 @@ def main():
     # initialize pygame
     pygame.init()
 
+    # load level
+    from levels import one, two, three, four, five # must come after pygame.init()
+    level_reset = Level(levels.two.level)
+
     # open screen
     screen = pygame.display.set_mode(settings.screen_size)
 
-    # load level
-    from levels import one, two, three, four, five # must come after pygame.init()
-    level = Level(levels.five.level)
-
     # play game
-    play(screen, level)
+    for num in range(1,3):
+        level = level_reset
+        play(screen, level)
 
     # exit system
     sys.exit()
 
 def play(screen, level):
-
-    score = 0
 
     # font
     game_Font = pygame.font.SysFont(None, 30)
@@ -46,6 +46,7 @@ def play(screen, level):
 
     display_start_text = 1
     time_delay_offset = 0
+    game_time_s = 0
 
     # game loop
     while True:
@@ -59,6 +60,9 @@ def play(screen, level):
                         orb.in_play = 1
                         display_start_text = 0
                         time_delay_offset = pygame.time.get_ticks()
+            if level.level_complete == 1:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    return
 
         level.level_check()
 
@@ -114,11 +118,10 @@ def play(screen, level):
             pygame.display.update();
 
         # update display
-        if level.level_complete == 0:
-            if display_start_text == 1:
-                click_to_start_text = game_Font.render("Click Anywhere To Begin" , True, colours.WHITE)
-                screen.blit(click_to_start_text , (500, 200))
-            pygame.display.update();
+        if display_start_text == 1:
+            click_to_start_text = game_Font.render("Click Anywhere To Begin" , True, colours.WHITE)
+            screen.blit(click_to_start_text , (500, 200))
+        pygame.display.update();
 
 # run main() immediately
 if __name__ == '__main__': main()
