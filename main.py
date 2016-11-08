@@ -62,32 +62,26 @@ def play(screen, level):
 
         level.level_check()
 
-        # check if cursor is down/up for boost
         if level.level_complete == 0:
+        # check if cursor is down/up for boost
             screen_colour = colours.BOOST_BLUE if level.check_boost(event.type) else colours.BLACK
 
         # check if orb hits screen boundary; if so, redirects it elastically
-        if level.level_complete == 0:
             level.check_boundary(screen_boundary)
 
         # check if orb is within cursor radius; if so, return it to original position
-        if level.level_complete == 0:
             level.check_cursor()
 
         # check if there are any orb interactions
-        if level.level_complete == 0:
             level.check()
 
         # update level
-        if level.level_complete == 0:
             level.update(settings.screen_size)
 
         # draw background
-        if level.level_complete == 0:
             screen.fill(screen_colour)
 
         # update clock
-        if level.level_complete == 0:
             game_time_ms = pygame.time.get_ticks() - time_delay_offset
             game_time_s = float(game_time_ms)/1000
             if display_start_text == 1:
@@ -96,12 +90,10 @@ def play(screen, level):
             screen.blit(timer , (10, 10))
 
         # update point counter
-        if level.level_complete == 0:
             point_counter = game_Font.render("Points: " + str(level.points), True, colours.WHITE)
             screen.blit(point_counter , (10, 30))
 
         # draw level
-        if level.level_complete == 0:
             level.draw(screen)
 
         # Check if level is complete

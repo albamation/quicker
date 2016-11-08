@@ -39,7 +39,7 @@ class Obstacle:
             dist_y = orb.pos_y - self.pos_y
             dist_tot = math.sqrt(dist_x ** 2 + dist_y ** 2)
             if dist_tot <= self.rad + orb.rad:
-                orb.colour = colours.DEAD_GRAY
+                orb.colour = self.colour
                 sounds.play_sound('sounds/obstacle_sound.wav')
                 self.exists = 0
                 return 1
