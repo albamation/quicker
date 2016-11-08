@@ -8,6 +8,7 @@ from levels.Level import Level
 sys.path.insert(0, 'shapes/orbs')
 sys.path.insert(0, 'shapes/targets')
 sys.path.insert(0, 'shapes/obstacles')
+sys.path.insert(0, 'shapes/supertargets')
 
 from Cursor import Cursor
 from Orb import Orb
@@ -23,8 +24,8 @@ def main():
     screen = pygame.display.set_mode(settings.screen_size)
 
     # load level
-    from levels import one, two, three, four # must come after pygame.init()
-    level = Level(levels.two.level)
+    from levels import one, two, three, four, five # must come after pygame.init()
+    level = Level(levels.five.level)
 
     # play game
     play(screen, level)

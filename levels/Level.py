@@ -6,6 +6,7 @@ class Level:
     orbs = [];
     targets = [];
     obstacles = [];
+    supertargets = [];
     points = 0;
     level_complete = 0;
 
@@ -15,6 +16,7 @@ class Level:
         self.orbs = level['orbs']
         self.targets = level['targets']
         self.obstacles = level['obstacles']
+        self.supertargets = level['supertargets']
 
     # check if the player is boosting (5 = down, 6 = up)
     # NOTE: this doesn't work with multiple orbs right now
@@ -48,13 +50,14 @@ class Level:
     def check(self):
         for orb in self.orbs:
             for target in self.targets:
-                #target.check(orb)
                 if target.check(orb):
                     self.points = self.points + 1
             for obstacle in self.obstacles:
-                #obstacle.check(orb)
                 if obstacle.check(orb):
                     self.points = self.points - 1
+            for supertarget in self.supertargets:
+                if supertarget.check(orb):
+                    self.points = self.points + 3
 
     # check if all targets have been collected
     def level_check(self):
@@ -75,6 +78,8 @@ class Level:
             target.update(screen_size)
         for obstacle in self.obstacles:
             obstacle.update(screen_size)
+        for supertarget in self.supertargets:
+            supertarget.update(screen_size)
 
     # draw shapes to screen
     def draw(self, screen):
@@ -84,3 +89,5 @@ class Level:
             target.draw(screen)
         for obstacle in self.obstacles:
             obstacle.draw(screen)
+        for supertarget in self.supertargets:
+            supertarget.draw(screen)
